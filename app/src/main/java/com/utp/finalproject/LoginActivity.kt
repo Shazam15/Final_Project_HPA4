@@ -97,7 +97,11 @@ class LoginActivity : AppCompatActivity() {
             data = Uri.parse("tel:$helpPhoneNumber")
         }
 
-        startActivity(callIntent)
+        if (callIntent.resolveActivity(packageManager) != null) {
+            startActivity(callIntent)
+        } else {
+            Toast.makeText(this, R.string.no_phone_app, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onRequestPermissionsResult(

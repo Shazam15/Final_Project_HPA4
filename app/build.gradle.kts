@@ -4,11 +4,7 @@ plugins {
 
 android {
     namespace = "com.utp.finalproject"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.utp.finalproject"

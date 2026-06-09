@@ -13,6 +13,7 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="request_help_button">Solicitar ayuda</string>
     <string name="call_permission_denied">Permiso de llamada denegado</string>
+    <string name="no_phone_app">No hay aplicación de teléfono disponible</string>
     <string name="login_required_fields">Ingresa tu nombre y correo.</string>
     <string name="dashboard_greeting">Hola, %1$s</string>
     <string name="dashboard_subtitle">Tareas de cuidado para tus mascotas</string>
