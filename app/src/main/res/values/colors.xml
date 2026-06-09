@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="homepet_background">#F7FBFB</color>
+    <color name="homepet_primary">#0D6877</color>
+    <color name="homepet_primary_dark">#084E5A</color>
+    <color name="homepet_accent">#F2C94C</color>
+    <color name="homepet_surface">#FFFFFFFF</color>
+    <color name="homepet_input_border">#DDECEC</color>
+    <color name="homepet_text">#1F2D2F</color>
+    <color name="homepet_text_muted">#71858A</color>
 </resources>

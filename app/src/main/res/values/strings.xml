@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Final Project</string>
+    <string name="homepet_title">HomePet</string>
+    <string name="homepet_subtitle">Cuidado para tus mascotas</string>
+    <string name="homepet_pet_image">Mascota de HomePet</string>
+    <string name="welcome_message">Organiza los cuidados diarios de tus mascotas en un solo lugar.</string>
+    <string name="welcome_back_message">Bienvenido de vuelta, %1$s. Tus mascotas te esperan.</string>
+    <string name="start_app">Comenzar</string>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="name_hint">Nombre del cuidador</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="request_help_button">Solicitar ayuda</string>
+    <string name="call_permission_denied">Permiso de llamada denegado</string>
+    <string name="login_required_fields">Ingresa tu nombre y correo.</string>
+    <string name="dashboard_greeting">Hola, %1$s</string>
+    <string name="dashboard_subtitle">Tareas de cuidado para tus mascotas</string>
+    <string name="add_task">Agregar tarea</string>
+    <string name="order_by">Ordenar por</string>
+    <string name="no_tasks">Aún no hay tareas. Agrega el primer cuidado.</string>
+    <string name="task_form_title">Tarea de mascota</string>
+    <string name="pet_name_hint">Nombre de la mascota</string>
+    <string name="task_type_hint">Tipo de tarea: comida, baño, vacuna</string>
+    <string name="due_date_hint">Fecha: 2026-06-09</string>
+    <string name="priority_hint">Prioridad: Alta, Media o Baja</string>
+    <string name="notes_hint">Notas</string>
+    <string name="completed_task">Tarea completada</string>
+    <string name="save_task">Guardar tarea</string>
+    <string name="edit_task">Editar</string>
+    <string name="delete_task">Eliminar</string>
+    <string name="task_required_fields">Completa mascota, tarea, fecha y prioridad.</string>
 </resources>

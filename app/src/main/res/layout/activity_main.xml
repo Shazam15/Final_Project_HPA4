@@ -1,63 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/homepet_background"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <!-- Pantalla principal -->
-    <RelativeLayout
-        android:id="@+id/main_screen"
+    <TextView
+        android:id="@+id/greetingText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:textColor="@color/homepet_primary"
+        android:textSize="26sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:text="Hello World!"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="Slider" />
-
-    </RelativeLayout>
-
-    <!-- Panel oculto -->
-    <RelativeLayout
-        android:id="@+id/hidden_panel"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#D3D3D3"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="@string/dashboard_subtitle"
+        android:textColor="@color/homepet_text_muted"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/closeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:text="X" />
+    <Button
+        android:id="@+id/addTaskButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/bg_primary_button"
+        android:backgroundTint="@null"
+        android:text="@string/add_task"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/closeButton"
-            android:padding="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/order_by"
+        android:textColor="@color/homepet_text"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
-    </RelativeLayout>
+    <Spinner
+        android:id="@+id/orderSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_login_input"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="@string/no_tasks"
+        android:textColor="@color/homepet_text_muted"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tasksRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
