@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/homepet_pet_image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/homepet_pet" />
+                android:src="@drawable/pet_dog_happy" />
         </FrameLayout>
 
         <TextView
@@ -117,7 +117,7 @@
             android:backgroundTint="@null"
             android:text="@string/login_button"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/homepet_on_primary"
             android:textSize="17sp"
             android:textStyle="bold" />
 

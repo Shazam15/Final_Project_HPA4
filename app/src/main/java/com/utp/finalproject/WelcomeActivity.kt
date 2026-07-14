@@ -2,46 +2,88 @@ package com.utp.finalproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.utp.finalproject.data.UserPreferencesRepository
+import com.utp.finalproject.data.local.entity.PetEntity
+import com.utp.finalproject.data.repository.HomePetRepository
+import com.utp.finalproject.databinding.ActivityWelcomeBinding
+import com.utp.finalproject.viewmodel.OnboardingViewModel
+import com.utp.finalproject.viewmodel.RepositoryViewModelFactory
+import com.utp.finalproject.ui.PetArtwork
 import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
 
-    private lateinit var preferencesRepository: UserPreferencesRepository
-    private lateinit var welcomeText: TextView
+    private lateinit var binding: ActivityWelcomeBinding
+    private lateinit var viewModel: OnboardingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        binding = ActivityWelcomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        preferencesRepository = UserPreferencesRepository(applicationContext)
-        welcomeText = findViewById(R.id.welcomeText)
+        viewModel = ViewModelProvider(
+            this,
+            RepositoryViewModelFactory(HomePetRepository(applicationContext))
+        )[OnboardingViewModel::class.java]
 
-        findViewById<Button>(R.id.startButton).setOnClickListener {
-            lifecycleScope.launch {
-                val savedUserName = preferencesRepository.getUserName()
-                val intent = Intent(this@WelcomeActivity, LoginActivity::class.java).apply {
-                    putExtra(LoginActivity.EXTRA_SAVED_USER_NAME, savedUserName)
-                }
-                startActivity(intent)
-            }
+        setupPetTypeSpinner()
+
+        binding.startButton.setOnClickListener {
+            savePet()
         }
 
-        loadSavedPreferences()
+        lifecycleScope.launch {
+            viewModel.uiState.collect { state ->
+                if (state.shouldOpenHome) {
+                    openHome()
+                } else if (state.shouldOpenLogin) {
+                    openLogin()
+                }
+            }
+        }
     }
 
-    private fun loadSavedPreferences() {
-        lifecycleScope.launch {
-            val savedUserName = preferencesRepository.getUserName()
-            welcomeText.text = if (savedUserName.isBlank()) {
-                getString(R.string.welcome_message)
-            } else {
-                getString(R.string.welcome_back_message, savedUserName)
+    private fun setupPetTypeSpinner() {
+        val petTypes = listOf(PetEntity.TYPE_DOG, PetEntity.TYPE_CAT, PetEntity.TYPE_RABBIT)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, petTypes)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.petTypeSpinner.adapter = adapter
+        binding.petTypeSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: android.widget.AdapterView<*>?,
+                view: android.view.View?,
+                position: Int,
+                id: Long
+            ) {
+                binding.petPreviewImage.setImageResource(
+                    PetArtwork.pet(petTypes[position], PetEntity.MOOD_HAPPY)
+                )
             }
+
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) = Unit
         }
+    }
+
+    private fun savePet() {
+        val petName = binding.petNameInput.text.toString().trim()
+        if (petName.isBlank()) {
+            Toast.makeText(this, R.string.task_required_fields, Toast.LENGTH_SHORT).show()
+            return
+        }
+        viewModel.savePet(petName, binding.petTypeSpinner.selectedItem.toString())
+    }
+
+    private fun openHome() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun openLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

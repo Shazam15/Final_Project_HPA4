@@ -12,11 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.utp.finalproject.data.UserPreferencesRepository
-import com.utp.finalproject.ui.LoginViewModel
-import com.utp.finalproject.ui.LoginViewModelFactory
-import kotlinx.coroutines.launch
+import com.utp.finalproject.data.repository.HomePetRepository
+import com.utp.finalproject.viewmodel.LoginViewModel
+import com.utp.finalproject.viewmodel.RepositoryViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,10 +27,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val preferencesRepository = UserPreferencesRepository(applicationContext)
         viewModel = ViewModelProvider(
             this,
-            LoginViewModelFactory(preferencesRepository)
+            RepositoryViewModelFactory(HomePetRepository(applicationContext))
         )[LoginViewModel::class.java]
 
         nameInput = findViewById(R.id.nameInput)
@@ -42,12 +39,8 @@ class LoginActivity : AppCompatActivity() {
             ?.takeIf { it.isNotBlank() }
             ?.let { nameInput.setText(it) }
 
-        lifecycleScope.launch {
-            viewModel.uiState.collect { state ->
-                if (nameInput.text.isBlank() && state.savedUserName.isNotBlank()) {
-                    nameInput.setText(state.savedUserName)
-                }
-            }
+        if (nameInput.text.isBlank() && viewModel.savedUserName.isNotBlank()) {
+            nameInput.setText(viewModel.savedUserName)
         }
 
         findViewById<Button>(R.id.loginButton).setOnClickListener {
@@ -68,11 +61,12 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        viewModel.saveUserName(userName)
+        viewModel.login(userName, email)
 
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(MainActivity.EXTRA_USER_NAME, userName)
             putExtra(MainActivity.EXTRA_USER_EMAIL, email)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
     }
@@ -97,11 +91,7 @@ class LoginActivity : AppCompatActivity() {
             data = Uri.parse("tel:$helpPhoneNumber")
         }
 
-        if (callIntent.resolveActivity(packageManager) != null) {
-            startActivity(callIntent)
-        } else {
-            Toast.makeText(this, R.string.no_phone_app, Toast.LENGTH_SHORT).show()
-        }
+        startActivity(callIntent)
     }
 
     override fun onRequestPermissionsResult(

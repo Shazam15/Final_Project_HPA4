@@ -1,137 +1,150 @@
 package com.utp.finalproject
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.utp.finalproject.data.TaskDatabaseHelper
-import com.utp.finalproject.data.TaskRepository
-import com.utp.finalproject.data.UserPreferencesRepository
-import com.utp.finalproject.ui.MainViewModel
-import com.utp.finalproject.ui.MainViewModelFactory
+import com.utp.finalproject.data.local.entity.PetEntity
+import com.utp.finalproject.data.local.entity.TaskEntity
+import com.utp.finalproject.data.repository.HomePetRepository
+import com.utp.finalproject.databinding.ActivityMainBinding
+import com.utp.finalproject.ui.adapters.TaskAdapter
+import com.utp.finalproject.ui.PetArtwork
+import com.utp.finalproject.viewmodel.HomeUiState
+import com.utp.finalproject.viewmodel.HomeViewModel
+import com.utp.finalproject.utils.MapIntentHelper
+import com.utp.finalproject.viewmodel.RepositoryViewModelFactory
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: HomeViewModel
     private lateinit var taskAdapter: TaskAdapter
-    private lateinit var greetingText: TextView
-    private lateinit var emptyText: TextView
-    private lateinit var orderSpinner: Spinner
-
     private val taskFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK &&
+        if (result.resultCode == RESULT_OK &&
             result.data?.getBooleanExtra(TaskFormActivity.EXTRA_TASK_CHANGED, false) == true
         ) {
-            viewModel.refreshTasks()
+            // Room emite la lista actualizada mediante Flow; el resultado confirma el cambio.
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val repository = HomePetRepository(applicationContext)
+        if (!repository.isLoggedIn()) {
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+            return
+        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val taskRepository = TaskRepository(TaskDatabaseHelper(applicationContext))
-        val preferencesRepository = UserPreferencesRepository(applicationContext)
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(taskRepository, preferencesRepository)
-        )[MainViewModel::class.java]
-
-        greetingText = findViewById(R.id.greetingText)
-        emptyText = findViewById(R.id.emptyText)
-        orderSpinner = findViewById(R.id.orderSpinner)
+            RepositoryViewModelFactory(repository)
+        )[HomeViewModel::class.java]
 
         setupTaskList()
-        setupOrderSpinner()
-
-        findViewById<Button>(R.id.addTaskButton).setOnClickListener {
-            openTaskForm()
-        }
+        setupNavigation()
 
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
-                val userName = intent.getStringExtra(EXTRA_USER_NAME)
-                    ?.takeIf { it.isNotBlank() }
-                    ?: state.userName
-
-                greetingText.text = getString(R.string.dashboard_greeting, userName)
-                taskAdapter.submitList(state.tasks)
-                emptyText.visibility = if (state.tasks.isEmpty()) View.VISIBLE else View.GONE
-                setSelectedOrder(state.orderBy)
+                render(state)
             }
         }
     }
 
     private fun setupTaskList() {
         taskAdapter = TaskAdapter(
-            onCompletionChanged = { task, isCompleted ->
-                viewModel.updateCompletion(task, isCompleted)
-            },
-            onEditClicked = { task ->
-                openTaskForm(task.id)
-            },
-            onDeleteClicked = { task ->
-                viewModel.deleteTask(task)
-            }
+            onCompleteClick = { task -> viewModel.completeTask(task) },
+            onEditClick = { task -> openTaskForm(task.id) },
+            onDeleteClick = { },
+            onLocationClick = { task -> MapIntentHelper.open(this, task) }
         )
+        binding.tasksRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.tasksRecyclerView.adapter = taskAdapter
+    }
 
-        findViewById<RecyclerView>(R.id.tasksRecyclerView).apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = taskAdapter
+    private fun setupNavigation() {
+        binding.addTaskButton.setOnClickListener { openTaskForm() }
+        binding.tasksButton.setOnClickListener { startActivity(Intent(this, TaskListActivity::class.java)) }
+        binding.rewardsButton.setOnClickListener { startActivity(Intent(this, RewardsActivity::class.java)) }
+        binding.historyButton.setOnClickListener { startActivity(Intent(this, HistoryActivity::class.java)) }
+        binding.settingsButton.setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+    }
+
+    private fun render(state: HomeUiState) {
+        val pet = state.pet
+        if (pet == null) {
+            binding.greetingText.text = getString(R.string.homepet_title)
+            return
+        }
+
+        binding.greetingText.text = getString(R.string.dashboard_greeting, pet.name)
+        binding.petNameText.text = pet.name
+        binding.petImage.setImageResource(PetArtwork.pet(pet.type, pet.mood))
+        renderRewardLayer(
+            binding.petBackgroundImage,
+            pet.equippedBackground == "Fondo jardín",
+            R.drawable.reward_garden_bg
+        )
+        renderRewardLayer(
+            binding.petCapeImage,
+            pet.equippedClothing == "Capa de héroe",
+            R.drawable.reward_hero_cape
+        )
+        renderRewardLayer(
+            binding.petGoldImage,
+            pet.equippedColor == "Color dorado",
+            R.drawable.reward_gold_color
+        )
+        renderRewardLayer(
+            binding.petCollarImage,
+            pet.equippedAccessory == "Collar azul",
+            R.drawable.reward_collar_blue
+        )
+        renderRewardLayer(
+            binding.petHatImage,
+            pet.equippedHat == "Sombrero verde",
+            R.drawable.reward_hat_green
+        )
+        binding.petStatusText.text = getString(R.string.pet_status_line, pet.level, pet.coins, pet.mood)
+        binding.petStatsText.text = getString(
+            R.string.pet_stats,
+            pet.health,
+            pet.hunger,
+            pet.energy,
+            pet.happiness
+        )
+        binding.petMessageText.text = petMessage(pet)
+        binding.xpProgress.max = state.xpMax
+        binding.xpProgress.progress = pet.experience
+        binding.emptyText.visibility = if (state.urgentTasks.isEmpty()) View.VISIBLE else View.GONE
+        taskAdapter.submitList(state.urgentTasks)
+    }
+
+    private fun petMessage(pet: PetEntity): String {
+        return when (pet.mood) {
+            PetEntity.MOOD_HAPPY -> getString(R.string.pet_message_happy, pet.name)
+            PetEntity.MOOD_SAD -> getString(R.string.pet_message_sad, pet.name)
+            PetEntity.MOOD_SICK -> getString(R.string.pet_message_sick, pet.name)
+            PetEntity.MOOD_DANGER -> getString(R.string.pet_message_danger, pet.name)
+            else -> getString(R.string.pet_message_neutral, pet.name)
         }
     }
 
-    private fun setupOrderSpinner() {
-        val options = listOf(
-            TaskRepository.ORDER_BY_DATE,
-            TaskRepository.ORDER_BY_PRIORITY,
-            TaskRepository.ORDER_BY_PET
-        )
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        orderSpinner.adapter = adapter
-
-        orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedOrder = options[position]
-                if (selectedOrder != viewModel.uiState.value.orderBy) {
-                    viewModel.updateOrder(selectedOrder)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-        }
-    }
-
-    private fun setSelectedOrder(orderBy: String) {
-        val selectedIndex = when (orderBy) {
-            TaskRepository.ORDER_BY_PRIORITY -> 1
-            TaskRepository.ORDER_BY_PET -> 2
-            else -> 0
-        }
-
-        if (orderSpinner.selectedItemPosition != selectedIndex) {
-            orderSpinner.setSelection(selectedIndex)
-        }
+    private fun renderRewardLayer(image: android.widget.ImageView, visible: Boolean, drawable: Int) {
+        image.visibility = if (visible) View.VISIBLE else View.GONE
+        if (visible) image.setImageResource(drawable)
     }
 
     private fun openTaskForm(taskId: Long = 0L) {

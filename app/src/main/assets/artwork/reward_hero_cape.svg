@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img">
+  <title>Reward Hero Cape</title>
+  <path d="M72,126C46,142 35,177 40,218L89,204L99,145Z" fill="#6B43C5" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M184,126C210,142 221,177 216,218L167,204L157,145Z" fill="#6B43C5" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M82,132C105,145 151,145 174,132" fill="#00000000" stroke="#F6C445" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

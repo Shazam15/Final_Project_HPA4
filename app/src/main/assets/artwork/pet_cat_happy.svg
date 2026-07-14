@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img">
+  <title>Pet Cat Happy</title>
+  <path d="M69,123C57,105 57,78 70,58L78,28L104,48C119,41 137,41 152,48L178,28L186,58C199,79 199,105 187,123C202,143 207,168 202,205H170L165,169L159,211H97L91,169L86,205H54C49,168 54,143 69,123Z" fill="#159FDE" stroke="#080808" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M78,28L104,48L70,58Z" fill="#159FDE" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M178,28L152,48L186,58Z" fill="#159FDE" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M95,205V169M128,210V172M161,205V169" fill="#00000000" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54,190C22,203 20,169 38,161" fill="#00000000" stroke="#080808" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M92,115H66M92,124H64M164,115H190M164,124H192" fill="#00000000" stroke="#080808" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M101,99a7,7 0,1 0,14 0a7,7 0,1 0,-14 0M141,99a7,7 0,1 0,14 0a7,7 0,1 0,-14 0" fill="#0A0A0A"/>
+  <path d="M122,111l6,5l6,-5z" fill="#0A0A0A"/>
+  <path d="M109,122c5,18 33,18 38,0" fill="#00000000" stroke="#0A0A0A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M76,74c-12,-13 -28,3 -12,17c12,10 12,10 12,10s0,0 12,-10c16,-14 0,-30 -12,-17z" fill="#FF4B67"/>
+</svg>

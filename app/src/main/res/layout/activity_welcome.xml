@@ -1,60 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/homepet_background"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="32dp">
+    android:background="@color/homepet_background">
 
-    <FrameLayout
-        android:layout_width="190dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="54dp"
-        android:background="@drawable/bg_pet_circle"
-        android:padding="12dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/petPreviewImage"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/homepet_pet_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/homepet_pet" />
-    </FrameLayout>
+            android:src="@drawable/pet_dog_happy" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/homepet_title"
-        android:textColor="@color/homepet_primary"
-        android:textSize="38sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepet_title"
+            android:textColor="@color/homepet_primary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:text="@string/welcome_message"
-        android:textColor="@color/homepet_text"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/welcome_message"
+            android:textColor="@color/homepet_text_muted"
+            android:textSize="15sp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <EditText
+            android:id="@+id/petNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_login_input"
+            android:hint="@string/pet_name"
+            android:inputType="textPersonName"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:textColor="@color/homepet_text" />
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/bg_primary_button"
-        android:backgroundTint="@null"
-        android:text="@string/start_app"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        <Spinner
+            android:id="@+id/petTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_login_input"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_primary_button"
+            android:backgroundTint="@null"
+            android:text="@string/start_app"
+            android:textAllCaps="false"
+            android:textColor="@color/homepet_on_primary"
+            android:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>

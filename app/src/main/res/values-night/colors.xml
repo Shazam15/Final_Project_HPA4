@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="homepet_background">#101718</color>
+    <color name="homepet_primary">#72D4E2</color>
+    <color name="homepet_primary_dark">#4AB4C3</color>
+    <color name="homepet_accent">#F2C94C</color>
+    <color name="homepet_surface">#1B2527</color>
+    <color name="homepet_input_border">#40585C</color>
+    <color name="homepet_text">#EAF4F5</color>
+    <color name="homepet_text_muted">#A8BEC2</color>
+    <color name="homepet_pressed_surface">#294145</color>
+    <color name="homepet_on_primary">#101718</color>
+    <color name="color_background">@color/homepet_background</color>
+    <color name="color_surface">@color/homepet_surface</color>
+    <color name="color_text_primary">@color/homepet_text</color>
+    <color name="color_text_secondary">@color/homepet_text_muted</color>
+    <color name="color_card">@color/homepet_surface</color>
+    <color name="color_progress_track">#40585C</color>
+    <color name="color_progress_health">#69D19A</color>
+    <color name="color_progress_hunger">#F0B95B</color>
+    <color name="color_progress_happiness">#F2D05C</color>
+    <color name="color_error">#FFB4AB</color>
+</resources>

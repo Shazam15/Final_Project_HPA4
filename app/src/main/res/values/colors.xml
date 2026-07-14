@@ -10,4 +10,16 @@
     <color name="homepet_input_border">#DDECEC</color>
     <color name="homepet_text">#1F2D2F</color>
     <color name="homepet_text_muted">#71858A</color>
+    <color name="homepet_pressed_surface">#E8F2F3</color>
+    <color name="homepet_on_primary">#FFFFFFFF</color>
+    <color name="color_background">@color/homepet_background</color>
+    <color name="color_surface">@color/homepet_surface</color>
+    <color name="color_text_primary">@color/homepet_text</color>
+    <color name="color_text_secondary">@color/homepet_text_muted</color>
+    <color name="color_card">@color/homepet_surface</color>
+    <color name="color_progress_track">#D6E4E5</color>
+    <color name="color_progress_health">#2E8B57</color>
+    <color name="color_progress_hunger">#D89B2B</color>
+    <color name="color_progress_happiness">#E4B72D</color>
+    <color name="color_error">#B3261E</color>
 </resources>

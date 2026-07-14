@@ -2,14 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/homepet_background"
-    android:fillViewport="true">
+    android:background="@color/homepet_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="22dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -20,95 +19,124 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/petNameInput"
+            android:id="@+id/titleInput"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="22dp"
-            android:background="@drawable/bg_login_input"
-            android:hint="@string/pet_name_hint"
-            android:inputType="textPersonName"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/taskTypeInput"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/bg_login_input"
             android:hint="@string/task_type_hint"
             android:inputType="textCapSentences"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:singleLine="true" />
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
+
+        <EditText
+            android:id="@+id/descriptionInput"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_login_input"
+            android:gravity="top"
+            android:hint="@string/description_hint"
+            android:inputType="textMultiLine"
+            android:padding="14dp" />
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_login_input"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <Spinner
+            android:id="@+id/prioritySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_login_input"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+
+        <Spinner
+            android:id="@+id/frequencySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_login_input"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
 
         <EditText
             android:id="@+id/dueDateInput"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="14dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_login_input"
             android:hint="@string/due_date_hint"
-            android:inputType="date"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:singleLine="true" />
+            android:inputType="datetime"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
 
-        <EditText
-            android:id="@+id/priorityInput"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/bg_login_input"
-            android:hint="@string/priority_hint"
-            android:inputType="textCapWords"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            android:singleLine="true" />
-
-        <EditText
-            android:id="@+id/notesInput"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/bg_login_input"
-            android:gravity="top"
-            android:hint="@string/notes_hint"
-            android:inputType="textMultiLine"
-            android:padding="18dp" />
-
-        <CheckBox
-            android:id="@+id/completedCheck"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/completed_task"
-            android:textColor="@color/homepet_text" />
+            android:layout_marginTop="16dp"
+            android:text="@string/task_location_optional"
+            android:textColor="@color/homepet_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/locationPreviewText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/no_location_selected"
+            android:textColor="@color/homepet_text_muted" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/selectLocationButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/select_on_map"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/clearLocationButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/clear_location"
+                android:textAllCaps="false"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/saveTaskButton"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="18dp"
             android:background="@drawable/bg_primary_button"
             android:backgroundTint="@null"
             android:text="@string/save_task"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/homepet_on_primary"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/deleteTaskButton"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_help_button"
-            android:backgroundTint="@null"
+            android:layout_marginTop="10dp"
             android:text="@string/delete_task"
-            android:textAllCaps="false"
-            android:textColor="@color/homepet_primary"
-            android:textStyle="bold" />
-
+            android:textAllCaps="false" />
     </LinearLayout>
 </ScrollView>

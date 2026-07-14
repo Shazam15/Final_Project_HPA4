@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img">
+  <title>Pet Dog Sick</title>
+  <path d="M71,125C56,112 53,86 62,64C71,41 91,34 106,52C119,43 137,43 150,52C166,34 187,41 196,64C205,88 201,111 185,125C201,143 208,167 204,204H174L168,170L162,211H94L88,170L82,204H52C48,166 55,142 71,125Z" fill="#F32B32" stroke="#080808" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66,66C44,58 39,84 50,105C58,120 72,114 82,101Z" fill="#F32B32" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M190,66C212,58 217,84 206,105C198,120 184,114 174,101Z" fill="#F32B32" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M95,205V169M128,210V172M161,205V169" fill="#00000000" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M200,183c22,0 25,18 7,22" fill="#00000000" stroke="#080808" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M101,92l14,14M115,92l-14,14M141,92l14,14M155,92l-14,14" fill="#00000000" stroke="#0A0A0A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M122,111l6,5l6,-5z" fill="#0A0A0A"/>
+  <path d="M112,137c8,-13 24,-13 32,0" fill="#00000000" stroke="#0A0A0A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M169,61h24v24h-24z" fill="#F5F5F5" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M181,66v14M174,73h14" fill="#00000000" stroke="#E53232" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

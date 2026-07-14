@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img">
+  <title>Reward Gold Color</title>
+  <path d="M128,40a85,85 0,1 0,0 170a85,85 0,1 0,0 -170" fill="#F6C445" opacity="0.2"/>
+  <path d="M54,62v20M44,72h20M201,105v20M191,115h20M61,177v18M52,186h18" fill="#00000000" stroke="#F6C445" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

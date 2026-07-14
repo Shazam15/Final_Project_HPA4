@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img">
+  <title>Reward Garden Bg</title>
+  <path d="M24,181C48,146 73,151 96,166C122,137 156,139 178,165C201,150 223,163 235,190V230H21Z" fill="#67C96F" stroke="#20733C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35,198C75,183 173,183 224,202" fill="#00000000" stroke="#3D9B50" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54,173v28M45,181l9,8l9,-8M204,170v31M195,178l9,8l9,-8" fill="#00000000" stroke="#20733C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M42,169a8,8 0,1 0,16 0a8,8 0,1 0,-16 0M196,166a8,8 0,1 0,16 0a8,8 0,1 0,-16 0" fill="#F6C445" stroke="#080808" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
