@@ -15,6 +15,7 @@ object PetDecayCalculator {
     private const val ENERGY_LOSS_PER_INTERVAL = 3
     private const val HEALTH_LOSS_PER_DAY = 5
 
+    // Calcula intervalos transcurridos sin depender de Android; esto facilita las pruebas unitarias.
     fun calculate(pet: PetEntity, now: Long): PetDecayResult {
         val lastUpdate = pet.lastStatsUpdateAt
         if (lastUpdate <= 0L || now <= lastUpdate) {
@@ -49,6 +50,7 @@ object PetDecayCalculator {
             hunger = hunger
         )
 
+        // El resultado vuelve al Repository, que persiste pet solamente cuando changed es true.
         return PetDecayResult(
             pet = pet.copy(
                 health = health,

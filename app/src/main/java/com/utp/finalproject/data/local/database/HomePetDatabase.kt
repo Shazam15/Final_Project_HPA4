@@ -26,6 +26,7 @@ import com.utp.finalproject.data.local.entity.TaskEntity
     exportSchema = true
 )
 abstract class HomePetDatabase : RoomDatabase() {
+    // Room genera en compilación las implementaciones de estas interfaces DAO.
     abstract fun taskDao(): TaskDao
     abstract fun petDao(): PetDao
     abstract fun rewardDao(): RewardDao
@@ -36,6 +37,7 @@ abstract class HomePetDatabase : RoomDatabase() {
         private var INSTANCE: HomePetDatabase? = null
 
         fun getInstance(context: Context): HomePetDatabase {
+            // Singleton: todas las capas comparten una conexión segura a homepet_room.db.
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
@@ -47,6 +49,7 @@ abstract class HomePetDatabase : RoomDatabase() {
             }
         }
 
+        // Las migraciones conservan registros existentes mientras agregan nuevas columnas.
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE tasks ADD COLUMN locationName TEXT")

@@ -18,18 +18,21 @@ data class TaskFormUiState(
 class TaskFormViewModel(
     private val repository: HomePetRepository
 ) : ViewModel() {
+    // MutableStateFlow permanece privado para que solo el ViewModel pueda cambiar el estado.
     private val _uiState = MutableStateFlow(TaskFormUiState())
     val uiState: StateFlow<TaskFormUiState> = _uiState.asStateFlow()
 
     fun loadTask(taskId: Long) {
         if (taskId == 0L) return
         viewModelScope.launch {
+            // El id recibido por Intent viaja al Repository/DAO y la entidad vuelve por uiState.
             _uiState.value = _uiState.value.copy(task = repository.getTask(taskId))
         }
     }
 
     fun saveTask(task: TaskEntity) {
         viewModelScope.launch {
+            // Después de persistir, saved=true indica a TaskFormActivity que devuelva RESULT_OK.
             repository.saveTask(task)
             _uiState.value = _uiState.value.copy(saved = true)
         }

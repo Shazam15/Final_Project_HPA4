@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "rewards")
+// assetName identifica el arte; isUnlocked/isEquipped controlan compra y apariencia en Home.
 data class RewardEntity(
     @PrimaryKey
     val id: Int,

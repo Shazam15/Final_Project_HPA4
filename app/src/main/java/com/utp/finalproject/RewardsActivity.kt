@@ -29,15 +29,18 @@ class RewardsActivity : AppCompatActivity() {
             RepositoryViewModelFactory(HomePetRepository(applicationContext))
         )[RewardsViewModel::class.java]
 
+        // El Adapter envía la recompensa pulsada al ViewModel; este delega compra/equipamiento a Room.
         rewardAdapter = RewardAdapter { reward -> viewModel.buyOrEquip(reward) }
         binding.rewardsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.rewardsRecyclerView.adapter = rewardAdapter
 
+        // Room vuelve a emitir la recompensa actualizada y el Adapter refleja su nuevo estado.
         lifecycleScope.launch {
             viewModel.rewards.collect { rewards ->
                 rewardAdapter.submitList(rewards)
             }
         }
+        // Los mensajes de validación del Repository regresan por StateFlow para mostrarse como Toast.
         lifecycleScope.launch {
             viewModel.message.collect { message ->
                 if (message.isNotBlank()) {

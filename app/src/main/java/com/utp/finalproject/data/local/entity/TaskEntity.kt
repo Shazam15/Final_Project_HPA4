@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tasks")
+// Cada instancia se convierte en una fila Room y también viaja entre Repository, ViewModel y Adapter.
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

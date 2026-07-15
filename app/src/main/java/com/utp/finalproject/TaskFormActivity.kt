@@ -30,6 +30,8 @@ class TaskFormActivity : AppCompatActivity() {
     private var longitude: Double? = null
     private var placeId: String? = null
 
+    // Flujo de ida y vuelta: TaskForm envía ubicación inicial a LocationPicker y
+    // recibe nombre/coordenadas como resultado para incorporarlos a TaskEntity.
     private val locationPickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -61,6 +63,7 @@ class TaskFormActivity : AppCompatActivity() {
             RepositoryViewModelFactory(HomePetRepository(applicationContext))
         )[TaskFormViewModel::class.java]
 
+        // El id proviene de MainActivity o TaskListActivity; 0L representa una tarea nueva.
         taskId = intent.getLongExtra(EXTRA_TASK_ID, 0L)
         setupSpinners()
         binding.deleteTaskButton.visibility = if (taskId == 0L) View.GONE else View.VISIBLE
@@ -71,10 +74,12 @@ class TaskFormActivity : AppCompatActivity() {
         binding.selectLocationButton.setOnClickListener { openLocationPicker() }
         binding.clearLocationButton.setOnClickListener { clearLocation() }
 
+        // Repository publica la tarea cargada o el fin del CRUD mediante el StateFlow del ViewModel.
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 state.task?.let { fillTask(it) }
                 if (state.saved || state.deleted) {
+                    // Devuelve la confirmación al launcher de la Activity que abrió el formulario.
                     setResult(Activity.RESULT_OK, Intent().putExtra(EXTRA_TASK_CHANGED, true))
                     finish()
                 }
@@ -121,6 +126,7 @@ class TaskFormActivity : AppCompatActivity() {
         }
 
         val original = currentTask
+        // Convierte los valores visuales en una entidad y la envía al ViewModel -> Repository -> DAO.
         viewModel.saveTask(
             TaskEntity(
                 id = taskId,
@@ -144,6 +150,7 @@ class TaskFormActivity : AppCompatActivity() {
     }
 
     private fun openLocationPicker() {
+        // Los extras permiten que el mapa comience en la ubicación que ya tenía la tarea.
         val intent = Intent(this, LocationPickerActivity::class.java).apply {
             locationName?.let { putExtra(LocationPickerActivity.EXTRA_INITIAL_NAME, it) }
             latitude?.let { putExtra(LocationPickerActivity.EXTRA_INITIAL_LATITUDE, it) }

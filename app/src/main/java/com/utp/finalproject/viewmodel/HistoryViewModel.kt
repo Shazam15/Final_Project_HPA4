@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 class HistoryViewModel(
     private val repository: HomePetRepository
 ) : ViewModel() {
+    // Convierte el Flow de la tabla activity_history en estado observable por la Activity.
     val history: StateFlow<List<ActivityHistoryEntity>> = repository.historyFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
@@ -27,6 +28,7 @@ class HistoryViewModel(
 
     fun refreshStats() {
         viewModelScope.launch {
+            // Los conteos calculados en IO regresan por _stats sin entregar DAOs a la interfaz.
             _stats.value = repository.buildStats()
         }
     }

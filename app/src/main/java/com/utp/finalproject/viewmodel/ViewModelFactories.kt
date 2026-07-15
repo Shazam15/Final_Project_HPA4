@@ -9,6 +9,7 @@ class RepositoryViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        // Inyecta la misma clase de acceso a datos sin pasar Activity, Views ni Context al ViewModel.
         return when {
             modelClass.isAssignableFrom(OnboardingViewModel::class.java) -> OnboardingViewModel(repository)
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository)

@@ -25,6 +25,8 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // La Activity entrega eventos de la interfaz al ViewModel; la Factory le inyecta
+        // el Repository para que la pantalla no acceda directamente a Room.
         viewModel = ViewModelProvider(
             this,
             RepositoryViewModelFactory(HomePetRepository(applicationContext))
@@ -36,6 +38,7 @@ class WelcomeActivity : AppCompatActivity() {
             savePet()
         }
 
+        // Flujo de regreso: Repository -> ViewModel.uiState -> Activity -> navegación.
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 if (state.shouldOpenHome) {
@@ -74,6 +77,7 @@ class WelcomeActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.task_required_fields, Toast.LENGTH_SHORT).show()
             return
         }
+        // Envía nombre y tipo al OnboardingViewModel, que los pasa al Repository y a Room.
         viewModel.savePet(petName, binding.petTypeSpinner.selectedItem.toString())
     }
 

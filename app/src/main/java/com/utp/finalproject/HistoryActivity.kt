@@ -31,12 +31,15 @@ class HistoryActivity : AppCompatActivity() {
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.historyRecyclerView.adapter = historyAdapter
 
+        // Historial: Room -> HistoryDao Flow -> Repository -> ViewModel -> Adapter.
         lifecycleScope.launch {
             viewModel.history.collect { history ->
                 historyAdapter.submitList(history)
+                // Cada cambio de historial solicita un resumen calculado desde las tablas Room.
                 viewModel.refreshStats()
             }
         }
+        // Las estadísticas regresan como StateFlow y aquí se convierten en texto y progreso visual.
         lifecycleScope.launch {
             viewModel.stats.collect { stats ->
                 if (stats != null) {

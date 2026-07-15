@@ -23,6 +23,7 @@ class TaskListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTasksBinding
     private lateinit var viewModel: TasksViewModel
     private lateinit var taskAdapter: TaskAdapter
+    // Al volver del formulario no se recarga manualmente: Room notifica el cambio por tasksFlow.
     private val taskFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { }
@@ -40,6 +41,7 @@ class TaskListActivity : AppCompatActivity() {
         setupSpinners()
         setupList()
 
+        // Room -> TaskDao.observeTasks -> Repository -> TasksViewModel -> RecyclerView.
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 taskAdapter.submitList(state.tasks)
@@ -60,6 +62,7 @@ class TaskListActivity : AppCompatActivity() {
         spinner.adapter = adapter
         spinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                // La selección modifica un StateFlow del ViewModel y vuelve como una lista filtrada.
                 onSelected(values[position])
             }
 
@@ -71,6 +74,7 @@ class TaskListActivity : AppCompatActivity() {
         taskAdapter = TaskAdapter(
             onCompleteClick = { viewModel.completeTask(it) },
             onEditClick = { task ->
+                // Envía únicamente el id; TaskFormActivity consultará el registro completo en Room.
                 taskFormLauncher.launch(
                     Intent(this, TaskFormActivity::class.java)
                         .putExtra(TaskFormActivity.EXTRA_TASK_ID, task.id)

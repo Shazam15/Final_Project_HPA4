@@ -22,6 +22,7 @@ object PetNotificationEvaluator {
     const val WARNING_COOLDOWN_MILLIS = 12L * 60L * 60L * 1000L
     const val CRITICAL_COOLDOWN_MILLIS = 6L * 60L * 60L * 1000L
 
+    // El Worker entrega la mascota; esta función decide nivel y cooldown sin mostrar la notificación.
     fun evaluate(pet: PetEntity, now: Long): PetNotificationDecision {
         val stats = linkedMapOf(
             "salud" to pet.health,

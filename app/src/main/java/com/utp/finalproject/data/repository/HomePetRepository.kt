@@ -31,6 +31,10 @@ data class ActivityStats(
     val totalXp: Int
 )
 
+/**
+ * Punto de entrada de datos de los ViewModels. Coordina Room y SharedPreferences,
+ * de modo que la interfaz no conozca DAOs, SQL ni claves de preferencias.
+ */
 class HomePetRepository(context: Context) {
     private val database = HomePetDatabase.getInstance(context)
     private val taskDao = database.taskDao()
@@ -39,10 +43,12 @@ class HomePetRepository(context: Context) {
     private val historyDao = database.historyDao()
     private val preferences = HomePetPreferences(context)
 
+    // Room crea estos Flow. Cada INSERT/UPDATE/DELETE vuelve a emitir datos hacia los ViewModels.
     val petFlow: Flow<PetEntity?> = petDao.observePet()
     val tasksFlow: Flow<List<TaskEntity>> = taskDao.observeTasks()
     val rewardsFlow: Flow<List<RewardEntity>> = rewardDao.observeRewards()
     val historyFlow: Flow<List<ActivityHistoryEntity>> = historyDao.observeHistory()
+    // Une tres tablas en un solo paquete para que HomeViewModel reciba un estado consistente.
     val dashboardFlow: Flow<DashboardData> = combine(petFlow, tasksFlow, rewardsFlow) { pet, tasks, rewards ->
         DashboardData(pet, tasks, rewards)
     }
@@ -56,6 +62,7 @@ class HomePetRepository(context: Context) {
 
     fun isOnboardingCompleted(): Boolean = preferences.isOnboardingCompleted()
 
+    // OnboardingViewModel envía nombre/tipo; se guarda la mascota en Room y la bandera en preferencias.
     suspend fun createPet(name: String, type: String) = withContext(Dispatchers.IO) {
         petDao.insert(PetEntity(name = name, type = type))
         preferences.setOnboardingCompleted(true)
@@ -69,6 +76,7 @@ class HomePetRepository(context: Context) {
         )
     }
 
+    // TaskFormViewModel entrega la entidad completa. id=0 inserta; cualquier otro id actualiza.
     suspend fun saveTask(task: TaskEntity): Long = withContext(Dispatchers.IO) {
         val savedId = if (task.id == 0L) {
             taskDao.insert(task)
@@ -95,6 +103,10 @@ class HomePetRepository(context: Context) {
         )
     }
 
+    /**
+     * Flujo de completar: TaskEntity -> cálculo de XP/monedas -> actualización de tarea
+     * y mascota -> desbloqueo de recompensas -> registro en historial.
+     */
     suspend fun completeTask(task: TaskEntity) = withContext(Dispatchers.IO) {
         val now = System.currentTimeMillis()
         val reward = PetRules.calculateReward(task, now)
@@ -104,6 +116,7 @@ class HomePetRepository(context: Context) {
             TaskEntity.STATUS_COMPLETED_LATE
         }
 
+        // Primero persiste el resultado de la tarea para que los Flow de listas se actualicen.
         taskDao.update(
             task.copy(
                 status = status,
@@ -117,6 +130,7 @@ class HomePetRepository(context: Context) {
         if (pet != null) {
             val overdueTasks = taskDao.countByStatus(TaskEntity.STATUS_OVERDUE)
             val updatedPet = PetRules.updatePetAfterTask(pet, reward, overdueTasks)
+            // La recompensa calculada se transforma en estadísticas nuevas para la mascota.
             petDao.update(updatedPet)
             unlockRewardsForLevel(updatedPet.level)
         }
@@ -132,6 +146,7 @@ class HomePetRepository(context: Context) {
         )
     }
 
+    // Lo invocan HomeViewModel y WorkManager; compara fechas y propaga presión a la mascota.
     suspend fun updateOverdueTasks() = withContext(Dispatchers.IO) {
         val now = System.currentTimeMillis()
         val expiredTasks = taskDao.getExpiredTasks(
@@ -157,6 +172,7 @@ class HomePetRepository(context: Context) {
         }
     }
 
+    // RewardsViewModel envía la selección; el Repository valida nivel/monedas y actualiza Room.
     suspend fun buyOrEquipReward(reward: RewardEntity): String = withContext(Dispatchers.IO) {
         val pet = petDao.getPet() ?: return@withContext "Configura tu mascota primero."
         val latestReward = rewardDao.getReward(reward.id) ?: reward
@@ -170,6 +186,7 @@ class HomePetRepository(context: Context) {
             }
             rewardDao.unequipType(latestReward.type)
             rewardDao.update(latestReward.copy(isUnlocked = true, isEquipped = true))
+            // El nombre de la recompensa queda en PetEntity para que MainActivity dibuje su capa SVG.
             petDao.update(
                 applyRewardAppearance(
                     pet = pet.copy(coins = pet.coins - latestReward.cost),
@@ -206,6 +223,7 @@ class HomePetRepository(context: Context) {
         }
     }
 
+    // Lee la mascota, aplica una regla de dominio sin Android y persiste solo cuando hubo cambios.
     suspend fun applyPendingDecay(now: Long = System.currentTimeMillis()): PetDecayResult? =
         withContext(Dispatchers.IO) {
             val pet = petDao.getPet() ?: return@withContext null
@@ -242,6 +260,7 @@ class HomePetRepository(context: Context) {
         petDao.update(pet.copy(name = name, type = type))
     }
 
+    // HistoryViewModel solicita estos conteos; el resultado agregado vuelve a la UI como StateFlow.
     suspend fun buildStats(): ActivityStats = withContext(Dispatchers.IO) {
         val completed = taskDao.countByStatus(TaskEntity.STATUS_COMPLETED) +
             taskDao.countByStatus(TaskEntity.STATUS_COMPLETED_LATE)
@@ -260,6 +279,7 @@ class HomePetRepository(context: Context) {
         )
     }
 
+    // Borra ambas fuentes locales y vuelve a sembrar el catálogo base de recompensas.
     suspend fun resetProgress() = withContext(Dispatchers.IO) {
         taskDao.clear()
         petDao.clear()
@@ -269,6 +289,7 @@ class HomePetRepository(context: Context) {
         seedRewards()
     }
 
+    // Las siguientes opciones no requieren una tabla: se delegan a SharedPreferences.
     fun areNotificationsEnabled(): Boolean = preferences.areNotificationsEnabled()
 
     fun setNotificationsEnabled(enabled: Boolean) {

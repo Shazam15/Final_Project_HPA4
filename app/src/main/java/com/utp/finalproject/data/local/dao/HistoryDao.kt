@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HistoryDao {
+    // Los eventos más recientes salen primero y se propagan de forma reactiva al historial.
     @Query("SELECT * FROM activity_history ORDER BY createdAtMillis DESC")
     fun observeHistory(): Flow<List<ActivityHistoryEntity>>
 

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RewardDao {
+    // El Flow lleva compras/equipamiento desde Room hasta RewardsActivity y MainActivity.
     @Query("SELECT * FROM rewards ORDER BY requiredLevel ASC, cost ASC")
     fun observeRewards(): Flow<List<RewardEntity>>
 
@@ -28,6 +29,7 @@ interface RewardDao {
     @Update
     suspend fun update(reward: RewardEntity)
 
+    // Antes de equipar una recompensa, desactiva otra del mismo tipo para evitar capas duplicadas.
     @Query("UPDATE rewards SET isEquipped = 0 WHERE type = :type")
     suspend fun unequipType(type: String)
 

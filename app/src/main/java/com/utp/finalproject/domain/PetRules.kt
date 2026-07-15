@@ -13,6 +13,7 @@ data class RewardResult(
 
 object PetRules {
 
+    // Recibe una tarea persistida y produce un resultado puro; todavía no modifica Room.
     fun calculateReward(task: TaskEntity, completedAtMillis: Long): RewardResult {
         val baseXp = when (task.priority) {
             TaskEntity.PRIORITY_HIGH -> 35
@@ -30,6 +31,7 @@ object PetRules {
         return RewardResult(xp = xp, coins = max(2, xp / 5), completedOnTime = completedOnTime)
     }
 
+    // Devuelve una copia actualizada; el Repository decide cuándo guardarla con PetDao.
     fun updatePetAfterTask(pet: PetEntity, reward: RewardResult, overdueTasks: Int): PetEntity {
         var totalExperience = pet.experience + reward.xp
         var level = pet.level

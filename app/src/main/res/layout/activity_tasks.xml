@@ -14,20 +14,36 @@
         android:textSize="26sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="@string/filter_tasks_label"
+        android:textColor="@color/homepet_text"
+        android:textStyle="bold" />
+
     <Spinner
         android:id="@+id/filterSpinner"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_login_input"
         android:paddingStart="12dp"
         android:paddingEnd="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/order_tasks_label"
+        android:textColor="@color/homepet_text"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/orderSpinner"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/bg_login_input"
         android:paddingStart="12dp"
         android:paddingEnd="12dp" />

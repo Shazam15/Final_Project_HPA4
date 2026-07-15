@@ -16,6 +16,7 @@ class HomePetReminderWorker(
 
     override suspend fun doWork(): Result {
         return runCatching {
+            // Flujo en segundo plano: Worker -> Repository -> Room -> evaluación de dominio.
             val repository = HomePetRepository(applicationContext)
             val now = System.currentTimeMillis()
             val decayResult = repository.applyPendingDecay(now) ?: return Result.success()
@@ -34,6 +35,7 @@ class HomePetReminderWorker(
                         decayResult.pet.name,
                         decision.affectedStat
                     )
+                    // Si la regla lo permite, entrega título/mensaje al sistema de notificaciones.
                     HomePetNotificationManager.showWellbeingAlert(
                         applicationContext,
                         title,
@@ -45,6 +47,7 @@ class HomePetReminderWorker(
             }
             Result.success()
         }.getOrElse {
+            // WorkManager reintentará más tarde errores temporales de base de datos o sistema.
             Result.retry()
         }
     }

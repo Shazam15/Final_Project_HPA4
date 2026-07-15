@@ -50,6 +50,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
+        // Lee el punto enviado por TaskForm; sin extras utiliza el centro predeterminado de Panamá.
         val initialLatitude = intent.getDoubleExtra(EXTRA_INITIAL_LATITUDE, DEFAULT_LATITUDE)
         val initialLongitude = intent.getDoubleExtra(EXTRA_INITIAL_LONGITUDE, DEFAULT_LONGITUDE)
         val initialPoint = LatLng(initialLatitude, initialLongitude)
@@ -77,6 +78,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
     @Suppress("DEPRECATION")
     private fun reverseGeocode(point: LatLng) {
+        // Las coordenadas viajan al Geocoder en IO y la dirección resultante vuelve al EditText.
         lifecycleScope.launch {
             val address = withContext(Dispatchers.IO) {
                 runCatching {
@@ -101,6 +103,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
         val name = binding.locationNameInput.text.toString().trim().ifBlank {
             getString(R.string.location_selected)
         }
+        // Devuelve datos simples a TaskFormActivity; allí se integran en la entidad que guarda Room.
         setResult(
             Activity.RESULT_OK,
             Intent().apply {
@@ -114,6 +117,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     companion object {
+        // La Activity destino define las claves para evitar nombres de extras inconsistentes.
         const val EXTRA_INITIAL_NAME = "com.utp.finalproject.extra.INITIAL_LOCATION_NAME"
         const val EXTRA_INITIAL_LATITUDE = "com.utp.finalproject.extra.INITIAL_LATITUDE"
         const val EXTRA_INITIAL_LONGITUDE = "com.utp.finalproject.extra.INITIAL_LONGITUDE"

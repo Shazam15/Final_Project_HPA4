@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
+    // Flow reactivo: Room vuelve a emitir la lista cuando cambia cualquier fila de tasks.
     @Query("SELECT * FROM tasks ORDER BY dueAtMillis ASC")
     fun observeTasks(): Flow<List<TaskEntity>>
 
@@ -26,6 +27,7 @@ interface TaskDao {
     @Query("SELECT COUNT(*) FROM tasks WHERE status = :status")
     suspend fun countByStatus(status: String): Int
 
+    // Devuelve el id autogenerado para identificar después el mismo registro en otras Activities.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: TaskEntity): Long
 

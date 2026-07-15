@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 class RewardsViewModel(
     private val repository: HomePetRepository
 ) : ViewModel() {
+    // Room emite el catálogo y stateIn conserva el último valor para RewardsActivity.
     val rewards: StateFlow<List<RewardEntity>> = repository.rewardsFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
@@ -22,6 +23,7 @@ class RewardsViewModel(
 
     fun buyOrEquip(reward: RewardEntity) {
         viewModelScope.launch {
+            // La respuesta textual del Repository vuelve separada del catálogo persistido.
             _message.value = repository.buyOrEquipReward(reward)
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/homepet_background">
@@ -40,29 +41,53 @@
             android:inputType="textMultiLine"
             android:padding="14dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/category_hint"
+            android:textColor="@color/homepet_text"
+            android:textStyle="bold" />
+
         <Spinner
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/bg_login_input"
             android:paddingStart="12dp"
             android:paddingEnd="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/priority_label"
+            android:textColor="@color/homepet_text"
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/prioritySpinner"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/bg_login_input"
             android:paddingStart="12dp"
             android:paddingEnd="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/frequency_hint"
+            android:textColor="@color/homepet_text"
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/frequencySpinner"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/bg_login_input"
             android:paddingStart="12dp"
             android:paddingEnd="12dp" />
@@ -100,32 +125,63 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/selectLocationButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
                 android:text="@string/select_on_map"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:textColor="@color/homepet_primary"
+                android:textSize="12sp"
+                app:backgroundTint="@color/homepet_surface"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_map_24"
+                app:iconGravity="textStart"
+                app:iconPadding="5dp"
+                app:iconTint="@color/homepet_primary"
+                app:strokeColor="@color/homepet_primary"
+                app:strokeWidth="1dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/clearLocationButton"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:maxLines="1"
+                android:minWidth="0dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
                 android:text="@string/clear_location"
                 android:textAllCaps="false"
-                android:visibility="gone" />
+                android:textColor="@color/homepet_primary"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:backgroundTint="@color/homepet_surface"
+                app:cornerRadius="18dp"
+                app:icon="@drawable/ic_reset_24"
+                app:iconGravity="textStart"
+                app:iconPadding="5dp"
+                app:iconTint="@color/homepet_primary"
+                app:strokeColor="@color/homepet_primary"
+                app:strokeWidth="1dp" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/saveTaskButton"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/bg_primary_button"
             android:backgroundTint="@null"
+            android:drawableStart="@drawable/ic_save_24"
+            android:drawablePadding="8dp"
+            android:drawableTint="@color/homepet_on_primary"
             android:text="@string/save_task"
             android:textAllCaps="false"
             android:textColor="@color/homepet_on_primary"
@@ -137,6 +193,15 @@
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
             android:text="@string/delete_task"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@color/homepet_primary"
+            app:backgroundTint="@color/homepet_surface"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_delete_24"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@color/homepet_primary"
+            app:strokeColor="@color/homepet_primary"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 </ScrollView>

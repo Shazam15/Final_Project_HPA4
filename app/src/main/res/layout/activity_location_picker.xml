@@ -61,8 +61,15 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:background="@drawable/bg_help_button"
+            android:backgroundTint="@color/homepet_surface"
+            android:maxLines="1"
+            android:minWidth="0dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:text="@string/cancel"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@color/homepet_primary" />
 
         <Button
             android:id="@+id/confirmLocationButton"
@@ -72,6 +79,13 @@
             android:layout_weight="1"
             android:background="@drawable/bg_primary_button"
             android:backgroundTint="@null"
+            android:drawableStart="@drawable/ic_check_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/homepet_on_primary"
+            android:maxLines="1"
+            android:minWidth="0dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:text="@string/confirm_location"
             android:textAllCaps="false"
             android:textColor="@color/homepet_on_primary" />

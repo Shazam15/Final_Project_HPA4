@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PetDao {
+    // La app mantiene una mascota local; su id fijo permite observarla como un único estado.
     @Query("SELECT * FROM pet WHERE id = :id LIMIT 1")
     fun observePet(id: Int = PetEntity.DEFAULT_ID): Flow<PetEntity?>
 

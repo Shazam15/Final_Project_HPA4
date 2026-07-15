@@ -30,6 +30,7 @@ class SettingsActivity : AppCompatActivity() {
         HomePetPreferences.THEME_LIGHT,
         HomePetPreferences.THEME_DARK
     )
+    // Android devuelve aquí el resultado del permiso solicitado desde el checkbox.
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -52,6 +53,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setupSpinner()
         setupThemeSpinner()
+        // ViewModel lee estas preferencias desde Repository -> SharedPreferences al abrir la pantalla.
         binding.notificationsCheck.isChecked = viewModel.notificationsEnabled
         binding.reminderHourInput.setText(viewModel.reminderHour.toString())
 
@@ -65,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        // El registro de mascota fluye desde Room hasta la UI mediante petFlow/StateFlow.
         lifecycleScope.launch {
             viewModel.pet.collect { pet ->
                 if (pet != null && binding.petNameInput.text.isBlank()) {
@@ -95,6 +98,7 @@ class SettingsActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.task_required_fields, Toast.LENGTH_SHORT).show()
             return
         }
+        // Mascota se guarda en Room; notificaciones, hora y tema se guardan en SharedPreferences.
         viewModel.savePet(name, binding.petTypeSpinner.selectedItem.toString())
         viewModel.setNotificationsEnabled(binding.notificationsCheck.isChecked)
         viewModel.setReminderHour(hour)
@@ -120,6 +124,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun shareProgress() {
         val text = "Estoy cuidando mi hogar y a mi mascota en HomePet."
+        // ACTION_SEND entrega el texto a cualquier aplicación compatible elegida por el usuario.
         startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, text)

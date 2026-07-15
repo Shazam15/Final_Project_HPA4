@@ -18,6 +18,9 @@
     <string name="dashboard_subtitle">Tu mascota cambia según tus tareas</string>
     <string name="add_task">Agregar tarea</string>
     <string name="order_by">Ordenar por</string>
+    <string name="filter_tasks_label">Filtrar tareas</string>
+    <string name="order_tasks_label">Ordenar tareas</string>
+    <string name="priority_label">Prioridad</string>
     <string name="no_tasks">Aún no hay tareas. Agrega la primera misión del hogar.</string>
     <string name="task_form_title">Tarea del hogar</string>
     <string name="pet_name_hint">Nombre de la mascota</string>

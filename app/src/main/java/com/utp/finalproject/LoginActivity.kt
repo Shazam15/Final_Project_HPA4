@@ -35,6 +35,8 @@ class LoginActivity : AppCompatActivity() {
         nameInput = findViewById(R.id.nameInput)
         emailInput = findViewById(R.id.emailInput)
 
+        // Recibe un nombre enviado por otra Activity; si no llega, usa el guardado
+        // por LoginViewModel -> Repository -> SharedPreferences.
         intent.getStringExtra(EXTRA_SAVED_USER_NAME)
             ?.takeIf { it.isNotBlank() }
             ?.let { nameInput.setText(it) }
@@ -61,8 +63,10 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
+        // Los datos de sesión fluyen de los EditText al ViewModel y terminan en SharedPreferences.
         viewModel.login(userName, email)
 
+        // Este Intent explícito envía nombre y correo a MainActivity mediante sus claves públicas.
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(MainActivity.EXTRA_USER_NAME, userName)
             putExtra(MainActivity.EXTRA_USER_EMAIL, email)
@@ -87,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun callHelpNumber() {
+        // ACTION_CALL entrega el número al marcador telefónico del sistema Android.
         val callIntent = Intent(Intent.ACTION_CALL).apply {
             data = Uri.parse("tel:$helpPhoneNumber")
         }

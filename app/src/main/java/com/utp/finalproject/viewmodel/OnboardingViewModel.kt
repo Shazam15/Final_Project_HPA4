@@ -22,6 +22,7 @@ class OnboardingViewModel(
     val uiState: StateFlow<OnboardingUiState> = _uiState.asStateFlow()
 
     init {
+        // Al iniciar, combina datos de Room y preferencias para decidir la pantalla destino.
         viewModelScope.launch {
             repository.prepareInitialData()
             val onboardingCompleted = repository.isOnboardingCompleted()
@@ -34,6 +35,7 @@ class OnboardingViewModel(
 
     fun savePet(name: String, type: String) {
         viewModelScope.launch {
+            // La entrada validada en WelcomeActivity termina en PetDao y en el historial.
             repository.createPet(
                 name = name,
                 type = type.ifBlank { PetEntity.TYPE_DOG }

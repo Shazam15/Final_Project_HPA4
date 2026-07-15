@@ -23,6 +23,7 @@ class TasksViewModel(
     private val filter = MutableStateFlow("Todas")
     private val order = MutableStateFlow("Fecha")
 
+    // Combina datos persistidos con elecciones temporales de UI; filtro y orden no modifican Room.
     val uiState: StateFlow<TasksUiState> = combine(repository.tasksFlow, filter, order) { tasks, selectedFilter, selectedOrder ->
         val filtered = when (selectedFilter) {
             TaskEntity.STATUS_PENDING -> tasks.filter { it.status == TaskEntity.STATUS_PENDING }
@@ -41,6 +42,7 @@ class TasksViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TasksUiState())
 
     fun setFilter(value: String) {
+        // Cambiar este StateFlow recalcula uiState y envía la nueva lista a TaskListActivity.
         filter.value = value
     }
 

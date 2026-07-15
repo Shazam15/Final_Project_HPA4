@@ -24,6 +24,7 @@ data class HomeUiState(
 class HomeViewModel(
     private val repository: HomePetRepository
 ) : ViewModel() {
+    // Transforma los tres Flow de Room combinados por el Repository en un estado listo para dibujar.
     val uiState: StateFlow<HomeUiState> = repository.dashboardFlow
         .map { data -> data.toHomeUiState() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
@@ -35,6 +36,7 @@ class HomeViewModel(
     }
 
     fun completeTask(task: TaskEntity) {
+        // La Activity entrega el evento; viewModelScope sobrevive a cambios de configuración.
         viewModelScope.launch {
             repository.completeTask(task)
         }

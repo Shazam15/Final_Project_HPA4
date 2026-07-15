@@ -30,6 +30,7 @@ class TaskAdapter(
         private val binding: ItemTaskBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(task: TaskEntity) {
+            // bind transforma una entidad recibida del StateFlow en valores visibles del item XML.
             val context = binding.root.context
             binding.taskTitleText.text = task.title
             binding.taskMetaText.text = context.getString(
@@ -52,6 +53,7 @@ class TaskAdapter(
                 context.getString(R.string.completed_task)
             }
 
+            // Los callbacks devuelven la entidad a la Activity; el Adapter no accede al ViewModel.
             binding.completeTaskButton.setOnClickListener { onCompleteClick(task) }
             binding.editTaskButton.setOnClickListener { onEditClick(task) }
             binding.deleteTaskButton.setOnClickListener { onDeleteClick(task) }
@@ -60,6 +62,7 @@ class TaskAdapter(
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<TaskEntity>() {
+        // DiffUtil usa el id para reconocer filas y el contenido para redibujar solo lo necesario.
         override fun areItemsTheSame(oldItem: TaskEntity, newItem: TaskEntity): Boolean {
             return oldItem.id == newItem.id
         }

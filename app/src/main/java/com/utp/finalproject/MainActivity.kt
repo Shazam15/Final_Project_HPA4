@@ -25,13 +25,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: HomeViewModel
     private lateinit var taskAdapter: TaskAdapter
+    // MainActivity envía el id a TaskFormActivity y recibe EXTRA_TASK_CHANGED al terminar.
     private val taskFormLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK &&
             result.data?.getBooleanExtra(TaskFormActivity.EXTRA_TASK_CHANGED, false) == true
         ) {
-            // Room emite la lista actualizada mediante Flow; el resultado confirma el cambio.
+            // Room emite la lista actualizada mediante Flow; el resultado solo confirma el cambio.
         }
     }
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         setupTaskList()
         setupNavigation()
 
+        // Room -> Repository.dashboardFlow -> HomeViewModel.uiState -> render de esta Activity.
         lifecycleScope.launch {
             viewModel.uiState.collect { state ->
                 render(state)
@@ -65,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupTaskList() {
         taskAdapter = TaskAdapter(
+            // El Adapter devuelve la entidad seleccionada; el ViewModel la envía al Repository.
             onCompleteClick = { task -> viewModel.completeTask(task) },
             onEditClick = { task -> openTaskForm(task.id) },
             onDeleteClick = { },
@@ -129,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         binding.xpProgress.max = state.xpMax
         binding.xpProgress.progress = pet.experience
         binding.emptyText.visibility = if (state.urgentTasks.isEmpty()) View.VISIBLE else View.GONE
+        // ListAdapter calcula los cambios y dibuja únicamente las tareas modificadas.
         taskAdapter.submitList(state.urgentTasks)
     }
 
@@ -148,6 +152,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openTaskForm(taskId: Long = 0L) {
+        // Cero significa crear; un id existente indica qué registro debe consultar TaskForm en Room.
         val intent = Intent(this, TaskFormActivity::class.java).apply {
             putExtra(TaskFormActivity.EXTRA_TASK_ID, taskId)
         }

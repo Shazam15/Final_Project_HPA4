@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     private val repository: HomePetRepository
 ) : ViewModel() {
+    // Datos grandes/reactivos vienen de Room; opciones simples se leen de SharedPreferences.
     val pet: StateFlow<PetEntity?> = repository.petFlow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
@@ -26,6 +27,7 @@ class SettingsViewModel(
 
     fun savePet(name: String, type: String) {
         viewModelScope.launch {
+            // SettingsActivity envía valores de UI y el Repository actualiza PetEntity en Room.
             repository.updatePetSettings(name, type)
         }
     }

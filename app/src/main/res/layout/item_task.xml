@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
@@ -54,14 +55,24 @@
         android:textSize="13sp"
         android:visibility="gone" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/openLocationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
+        android:maxLines="1"
         android:text="@string/open_in_maps"
         android:textAllCaps="false"
-        android:visibility="gone" />
+        android:textColor="@color/homepet_primary"
+        android:visibility="gone"
+        app:backgroundTint="@color/homepet_surface"
+        app:cornerRadius="18dp"
+        app:icon="@drawable/ic_map_24"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconTint="@color/homepet_primary"
+        app:strokeColor="@color/homepet_primary"
+        app:strokeWidth="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,35 +81,69 @@
         android:gravity="end"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/completeTaskButton"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
             android:background="@drawable/bg_primary_button"
             android:backgroundTint="@null"
+            android:drawableStart="@drawable/ic_check_24"
+            android:drawablePadding="3dp"
+            android:drawableTint="@color/homepet_on_primary"
+            android:maxLines="1"
+            android:minWidth="0dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="@string/complete_task"
             android:textAllCaps="false"
-            android:textColor="@color/homepet_on_primary" />
+            android:textColor="@color/homepet_on_primary"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/editTaskButton"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_help_button"
-            android:backgroundTint="@null"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:minWidth="0dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:text="@string/edit_task"
             android:textAllCaps="false"
-            android:textColor="@color/homepet_primary" />
+            android:textColor="@color/homepet_primary"
+            android:textSize="11sp"
+            app:backgroundTint="@color/homepet_surface"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_edit_24"
+            app:iconGravity="textStart"
+            app:iconPadding="3dp"
+            app:iconTint="@color/homepet_primary"
+            app:strokeColor="@color/homepet_primary"
+            app:strokeWidth="1dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/deleteTaskButton"
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_help_button"
-            android:backgroundTint="@null"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:minWidth="0dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:text="@string/delete_task"
             android:textAllCaps="false"
-            android:textColor="@color/homepet_primary" />
+            android:textColor="@color/homepet_primary"
+            android:textSize="11sp"
+            app:backgroundTint="@color/homepet_surface"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_delete_24"
+            app:iconGravity="textStart"
+            app:iconPadding="3dp"
+            app:iconTint="@color/homepet_primary"
+            app:strokeColor="@color/homepet_primary"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 </LinearLayout>

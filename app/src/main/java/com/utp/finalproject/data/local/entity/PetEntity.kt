@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "pet")
+// Reúne progreso, bienestar y nombres de capas visuales de la única mascota local.
 data class PetEntity(
     @PrimaryKey
     val id: Int = DEFAULT_ID,

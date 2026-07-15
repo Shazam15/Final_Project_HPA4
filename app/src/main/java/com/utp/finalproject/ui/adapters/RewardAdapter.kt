@@ -27,6 +27,7 @@ class RewardAdapter(
         private val binding: ItemRewardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(reward: RewardEntity) {
+            // assetName se traduce a un VectorDrawable; el resto de campos se muestra como texto.
             val context = binding.root.context
             binding.rewardImage.setImageResource(PetArtwork.reward(reward.assetName))
             binding.rewardNameText.text = reward.name
@@ -43,6 +44,7 @@ class RewardAdapter(
                 else -> context.getString(R.string.unlock)
             }
             binding.rewardActionButton.isEnabled = !reward.isEquipped
+            // Devuelve la selección a RewardsActivity, que la envía al ViewModel y Repository.
             binding.rewardActionButton.setOnClickListener { onActionClick(reward) }
         }
     }

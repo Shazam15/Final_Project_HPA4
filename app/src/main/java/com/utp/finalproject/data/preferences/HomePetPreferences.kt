@@ -2,6 +2,7 @@ package com.utp.finalproject.data.preferences
 
 import android.content.Context
 
+/** Guarda configuración pequeña en formato clave-valor; los datos del dominio viven en Room. */
 class HomePetPreferences(context: Context) {
     private val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
@@ -41,6 +42,7 @@ class HomePetPreferences(context: Context) {
         return preferences.getBoolean(KEY_LOGGED_IN, false)
     }
 
+    // LoginViewModel envía estos valores; apply() los persiste de forma asíncrona en el dispositivo.
     fun saveSession(userName: String, email: String) {
         preferences.edit()
             .putBoolean(KEY_LOGGED_IN, true)
@@ -51,6 +53,7 @@ class HomePetPreferences(context: Context) {
 
     fun getUserName(): String = preferences.getString(KEY_USER_NAME, "") ?: ""
 
+    // Cerrar sesión conserva mascota y tareas; solo elimina las claves de autenticación local.
     fun clearSession() {
         preferences.edit()
             .remove(KEY_LOGGED_IN)
